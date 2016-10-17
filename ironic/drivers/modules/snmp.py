@@ -563,6 +563,20 @@ class SNMPDriverEatonPower(SNMPDriverBase):
         self.client.set(oid, value)
 
 
+class SNMPDriverBaytechMRP27(SNMPDriverSimple):
+    """SNMP driver class for Baytech MRP27 PDU devices.
+
+    SNMP objects for Baytech MRP27 PDU:
+    4779, 1, 3, 5, 3, 1, 3, {unit_id}  Outlet Power
+    Values: 0=Off, 1=On, 2=Reboot
+    """
+
+    # TODO(srobert): Add support for dynamically allocated unit_id when needed
+    unit_id = 1
+    oid_device = (4779, 1, 3, 5, 3, 1, 3) + (unit_id,)
+    value_power_off = 0
+    value_power_on = 1
+
 # A dictionary of supported drivers keyed by snmp_driver attribute
 DRIVER_CLASSES = {
     'apc': SNMPDriverAPCMasterSwitch,
@@ -572,7 +586,8 @@ DRIVER_CLASSES = {
     'aten': SNMPDriverAten,
     'cyberpower': SNMPDriverCyberPower,
     'eatonpower': SNMPDriverEatonPower,
-    'teltronix': SNMPDriverTeltronix
+    'teltronix': SNMPDriverTeltronix,
+    'baytech_mrp27': SNMPDriverBaytechMRP27
 }
 
 
